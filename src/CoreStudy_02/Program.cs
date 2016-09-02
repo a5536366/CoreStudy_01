@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
@@ -19,11 +20,16 @@ namespace CoreStudy_02
             IServiceCollection serviceCollection=new ServiceCollection();
             serviceCollection.AddSingleton<ISignal, Signal>();
             serviceCollection.AddMemoryCache();
+            serviceCollection.AddDistributedMemoryCache();
+
+            
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
             MemcacheGetSet(serviceProvider);
             var cancellationTokenSource = new CancellationTokenSource();
             var changeToken = new CancellationChangeToken(cancellationTokenSource.Token);
             DateTime t= MemcacheGetOrCreate(serviceProvider, changeToken);
+            Console.WriteLine(Guid.NewGuid().ToString().Replace("-", "").Substring(0, 7));
+
             Console.WriteLine($"从缓存获取:{t}");
             Console.WriteLine($"睡一会........！");
             Thread.Sleep(1000*3);
@@ -48,6 +54,9 @@ namespace CoreStudy_02
             Thread.Sleep(1000 * 5);
             t = MemcacheSignal(serviceProvider);
             Console.WriteLine($"信号过期后缓存中获取:{t}");
+
+
+            
             Console.Read();
         }
         /// <summary>
@@ -75,6 +84,11 @@ namespace CoreStudy_02
             return _cache.GetOrCreate("GetOrCreateTest", (entry) =>
             {
                 entry.ExpirationTokens.Add(token);
+                //缓存过期回调
+                entry.RegisterPostEvictionCallback(((key, value, reason, state) =>
+                {
+                    Console.WriteLine($"键{key}值{value}改变，因为{reason}");
+                }));
                 return DateTime.Now;
             });
         }
