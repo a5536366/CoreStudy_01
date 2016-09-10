@@ -9,6 +9,8 @@ using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Primitives;
 
 namespace CoreStudy_04
 {
@@ -34,7 +36,9 @@ namespace CoreStudy_04
                 //实例名称
                 options.InstanceName = "master";
             }); //注册分布式缓存
-
+            IFileProvider fileProvider = new PhysicalFileProvider(@"c:\test");
+            //监测文件变化，回调执行
+            ChangeToken.OnChange(() => fileProvider.Watch("text.txt"), () => { Console.WriteLine("Change"); });
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
             IDistributedCache _distributedCache = serviceProvider.GetService<IDistributedCache>();
