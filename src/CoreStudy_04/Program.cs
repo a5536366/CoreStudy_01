@@ -47,6 +47,8 @@ namespace CoreStudy_04
             string str=_distributedCache.GetString("CoreTest");
             Console.WriteLine(str);
             Console.WriteLine(s);
+            //滑动过期
+            _distributedCache.SetString("CoreTest_Token","CoreTest_Token",new DistributedCacheEntryOptions() {SlidingExpiration = TimeSpan.FromSeconds(2000)});
             Console.Read();
         }
     }

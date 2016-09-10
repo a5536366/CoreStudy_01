@@ -21,5 +21,6 @@
     "netcoreapp1.0": {
       "imports": "dnxcore50"
     }
-  }
+  },
+  "userSecretsId": "aspnet-CoreStudy_04-20160910092430"
 }
