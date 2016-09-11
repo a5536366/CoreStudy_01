@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CoreStudy_05
 {
-    public partial class MyDatabase_CoreStudy_05Context : DbContext
+    public partial class BloggingContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -14,6 +14,7 @@ namespace CoreStudy_05
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasSequence("OrderNews", (b) => b.HasMax(Int64.MaxValue));
             modelBuilder.HasSequence<int>("OrderNumbers", schema: "shared")
                 .StartsAt(1000)
                 .IncrementsBy(5);

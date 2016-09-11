@@ -15,28 +15,28 @@ namespace CoreStudy_05
     {
         public static void Main(string[] args)
         {
-            //using (var db = new BloggingContext())
-            //{
-            //    var entity = db.Blogs
+            using (var db = new BloggingContext())
+            {
+                var entity = db.Blogs
 
-            //        .OrderBy(b => b.Url)
-            //        .FirstOrDefault();
-            //    entity.Url = "luckyearth.cn";
+                    .OrderByDescending(b => b.BlogId).AsNoTracking()
+                    .FirstOrDefault();
+                entity.Url = "luckyearth.cn";
 
-            //    db.Blogs.Update(entity);
-            //    db.SaveChanges();
-            //}
-            //using (BloggingContext context=new BloggingContext())
-            //{
-            //    var entity=context.Blogs.Add(new Blog()
-            //    {
-                    
-            //        Url = "d.luckyhr.com",
-                    
-            //    }).Entity;
-               
-            //    context.SaveChanges();
-            //}
+                db.Blogs.Update(entity);
+                db.SaveChanges();
+            }
+            using (BloggingContext context = new BloggingContext())
+            {
+                var entity = context.Blogs.Add(new Blogs()
+                {
+
+                    Url = "d.luckyhr.com",
+
+                }).Entity;
+
+                context.SaveChanges();
+            }
         }
     }
    

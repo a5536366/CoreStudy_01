@@ -7,7 +7,7 @@ using CoreStudy_05;
 
 namespace CoreStudy_05.Migrations
 {
-    [DbContext(typeof(MyDatabase_CoreStudy_05Context))]
+    [DbContext(typeof(BloggingContext))]
     [Migration("20160911070014_AddAuthr_News_defaultvalueSequence")]
     partial class AddAuthr_News_defaultvalueSequence
     {
