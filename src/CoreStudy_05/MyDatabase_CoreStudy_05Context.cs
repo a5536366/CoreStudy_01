@@ -14,6 +14,9 @@ namespace CoreStudy_05
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasSequence<int>("OrderNumbers", schema: "shared")
+                .StartsAt(1000)
+                .IncrementsBy(5);
             modelBuilder.Entity<Blogs>(entity =>
             {
                 entity.HasKey(e => e.BlogId)
@@ -22,16 +25,7 @@ namespace CoreStudy_05
                 entity.Property(e => e.Author).HasMaxLength(25);
             });
 
-            modelBuilder.Entity<News>(entity =>
-            {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.CreateTime).HasColumnType("datetime");
-
-                entity.Property(e => e.Title)
-                    .IsRequired()
-                    .HasMaxLength(50);
-            });
+            modelBuilder.Entity<News>(NewsMapping.Map);
 
             modelBuilder.Entity<Posts>(entity =>
             {

@@ -7,6 +7,8 @@ namespace CoreStudy_05
     {
         public long Id { get; set; }
         public string Title { get; set; }
+        public string Author { get; set; }
+        public int OrderNo { get; set; }
         public DateTime CreateTime { get; set; }
     }
 }
