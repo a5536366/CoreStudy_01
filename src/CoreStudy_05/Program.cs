@@ -22,7 +22,7 @@ namespace CoreStudy_05
                     .OrderByDescending(b => b.BlogId).AsNoTracking()
                     .FirstOrDefault();
                 entity.Url = "luckyearth.cn";
-
+                 
                 db.Blogs.Update(entity);
                 db.SaveChanges();
             }
